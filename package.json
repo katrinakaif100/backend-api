@@ -1,0 +1,24 @@
+{
+  "name": "diagnosacampak",
+  "version": "1.0.0",
+  "description": "mendiagnosa penyakit campak",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node"
+  },
+  "keywords": [
+    "kuncirahasiaku"
+  ],
+  "author": "Aghniatul Fikriah",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
