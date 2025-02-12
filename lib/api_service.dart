@@ -28,23 +28,34 @@ bool verifyJwt(String token, String secretKey) {
 }
 
 // Lokasi file JSON di server
-const String riwayatdiagnosaFile = 'riwayat_diagnosa.json';
-const String perawatanFile = 'perawatan.json';
-const String informasicampakFile = 'informasi_campak.json';
-const String gejalaFile = 'gejala.json';
-const String makananFile = 'makanan.json';
-const String faqFile = 'faq.json';
-const String artikelFile = 'artikel.json';
+const String riwayatdiagnosaFile = 'android/storage/riwayat_diagnosa.json';
+const String perawatanFile = 'android/storage/perawatan.json';
+const String informasicampakFile = 'android/storage/informasi_campak.json';
+const String gejalaFile = 'android/storage/gejala.json';
+const String makananFile = 'android/storage/makanan.json';
+const String faqFile = 'android/storage/faq.json';
+const String artikelFile = 'android/storage/artikel.json';
 
 // Fungsi handler utama
 Future<Response> _handler(Request req) async {
+  if (req.method == 'OPTIONS') {
+    return Response.ok('', headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    });
+  }
+
   final router = Router();
 
-  // Endpoint login
+  // Endpoint login untuk otentikasi (admin)
   router.post('/login', _handleLogin);
 
-  // Endpoint menerima dan mengelola data JSON
-  _registerAdminEndpoints(router);
+  // Endpoint untuk Admin
+  _registerAdminEndpoints(router); // Pendaftaran endpoint admin
+
+  // Endpoint untuk Pengguna
+  _registerUserEndpoints(router); // Pendaftaran endpoint pengguna
 
   return router(req);
 }
@@ -69,63 +80,78 @@ Future<Response> _handleLogin(Request request) async {
 Future<Response> _getData(String filePath) async {
   final file = File(filePath);
   if (await file.exists()) {
-    final jsonData = await file.readAsString();
-    return Response.ok(jsonData, headers: {'Content-Type': 'application/json'});
+    try {
+      final jsonData = await file.readAsString();
+      final parsedData = jsonDecode(jsonData);
+      return Response.ok(
+        jsonEncode(parsedData),
+        headers: {'Content-Type': 'application/json'},
+      );
+    } catch (e) {
+      return Response.internalServerError(
+        body: jsonEncode(
+            {'error': 'Failed to parse JSON', 'details': e.toString()}),
+      );
+    }
   } else {
-    return Response.notFound(jsonEncode({'error': 'Data not found'}));
+    return Response.notFound(
+      jsonEncode({'error': 'Data not found'}),
+    );
   }
 }
 
 // Fungsi generik untuk POST data
 Future<Response> _postData(String filePath, Request request) async {
-  final body = await request.readAsString();
   try {
-    final jsonData = jsonDecode(body);
-    if (jsonData is! Map<String, dynamic> && jsonData is! List) {
-      throw FormatException('Invalid JSON format');
-    }
+    final body = await request.readAsString();
+    final jsonData = jsonDecode(body); // Mendukung bentuk list atau map
+
+    // Simpan ke file tanpa memodifikasi format
     final file = File(filePath);
-    await file.writeAsString(jsonEncode(jsonData), flush: true);
-    return Response.ok(jsonEncode({'message': 'Data saved successfully'}));
+    await file.writeAsString(
+      jsonEncode(jsonData),
+      flush: true,
+    );
+
+    return Response.ok(
+      jsonEncode({'message': 'Data saved successfully'}),
+    );
   } catch (e) {
     return Response.badRequest(
-        body: jsonEncode({'error': 'Invalid JSON', 'details': e.toString()}));
+      body: jsonEncode({'error': 'Invalid JSON', 'details': e.toString()}),
+    );
   }
 }
 
 // Fungsi untuk mendaftarkan endpoint admin
 void _registerAdminEndpoints(Router router) {
+  // Hanya riwayat diagnosa yang dikirim ke admin
   router.get('/admin/riwayat_diagnosa',
       (Request req) => _getData(riwayatdiagnosaFile));
   router.post('/admin/riwayat_diagnosa',
       (Request req) => _postData(riwayatdiagnosaFile, req));
+}
 
-  router.get('/admin/perawatan', (Request req) => _getData(perawatanFile));
-  router.post(
-      '/admin/perawatan', (Request req) => _postData(perawatanFile, req));
+// Fungsi untuk mendaftarkan endpoint pengguna
+void _registerUserEndpoints(Router router) {
+  // Endpoint untuk pengguna mendapatkan data
+  router.get('/api/perawatan', (Request req) => _getData(perawatanFile));
+  router.get(
+      '/api/informasi_campak', (Request req) => _getData(informasicampakFile));
+  router.get('/api/gejala', (Request req) => _getData(gejalaFile));
+  router.get('/api/makanan', (Request req) => _getData(makananFile));
+  router.get('/api/faq', (Request req) => _getData(faqFile));
+  router.get('/api/artikel', (Request req) => _getData(artikelFile));
 
-  router.get('/admin/informasi_campak',
-      (Request req) => _getData(informasicampakFile));
-  router.post('/admin/informasi_campak',
-      (Request req) => _postData(informasicampakFile, req));
-
-  router.get('/admin/gejala', (Request req) => _getData(gejalaFile));
-  router.post('/admin/gejala', (Request req) => _postData(gejalaFile, req));
-
-  router.get('/admin/makanan', (Request req) => _getData(makananFile));
-  router.post('/admin/makanan', (Request req) => _postData(makananFile, req));
-
-  router.get('/admin/faq', (Request req) => _getData(faqFile));
-  router.post('/admin/faq', (Request req) => _postData(faqFile, req));
-
-  router.get('/admin/artikel', (Request req) => _getData(artikelFile));
-  router.post('/admin/artikel', (Request req) => _postData(artikelFile, req));
+  // Endpoint untuk menerima data riwayat diagnosa dari pengguna
+  router.post('/api/riwayat_diagnosa',
+      (Request req) => _postData(riwayatdiagnosaFile, req));
 }
 
 // Fungsi utama untuk menjalankan server
 Future<void> serve(int port) async {
-  final handler =
-      const Pipeline().addMiddleware(logRequests()).addHandler(_handler);
+  final handler = Pipeline().addMiddleware(logRequests()).addHandler(_handler);
+
   final server = await io.serve(handler, InternetAddress.anyIPv4, port);
   print('Server listening on port ${server.port}');
 }

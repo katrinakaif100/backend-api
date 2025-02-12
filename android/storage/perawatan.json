@@ -1,0 +1,24 @@
+{
+    "perawatan": [
+      {
+        "tip": "Istirahat yang Cukup",
+        "description": "Istirahat total di tempat tidur sangat penting untuk membantu tubuh melawan infeksi."
+      },
+      {
+        "tip": "Minum Banyak Cairan",
+        "description": "Minum air putih, jus buah, atau kaldu untuk mencegah dehidrasi akibat demam tinggi."
+      },
+      {
+        "tip": "Jaga Kebersihan",
+        "description": "Cuci tangan secara rutin dengan sabun dan hindari menyentuh wajah untuk mengurangi risiko infeksi sekunder."
+      }
+    ],
+    "gejalaSerius": [
+      "Kesulitan bernapas",
+      "Kejang",
+      "Tanda-tanda dehidrasi berat (mulut kering, urin sedikit atau tidak ada)",
+      "Nyeri telinga berat atau cairan keluar dari telinga"
+    ],
+    "disclaimer": "Informasi ini hanya untuk tujuan edukasi dan BUKAN pengganti saran medis profesional. Selalu konsultasikan dengan dokter untuk perawatan yang tepat."
+  }
+  

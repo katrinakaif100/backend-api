@@ -1,23 +1,23 @@
 import 'dart:io';
-import 'api_service.dart' as api;
+import 'api_service.dart';
 
 Future<void> main() async {
-  // Validasi apakah port tersedia
-  final port = int.tryParse(Platform.environment['PORT'] ?? '8080') ?? 8080;
+  // Port server lokal
+  const int port = 443;
 
   try {
     // Menjalankan server
-    await api.serve(port);
-    print('✅ Server running at http://192.168.0.140:$port');
-    print('Press Ctrl+C to stop the server.');
+    print('🚀 Starting server on https://www.deteksicampak.my.id:$port ...');
+    await serve(port);
+    print('✅ Server running at https://www.deteksicampak.my.id:$port');
 
-    // Menangani SIGINT (Ctrl+C) untuk shutdown server
+    // Menangani shutdown server saat menerima sinyal SIGINT (Ctrl+C)
     ProcessSignal.sigint.watch().listen((signal) async {
       print('\n🛑 Server shutting down...');
       exit(0);
     });
   } catch (e, stackTrace) {
-    // Menangani error dengan log lebih detail
+    // Log error jika server gagal dijalankan
     print('❌ Failed to start server: $e');
     print('StackTrace: $stackTrace');
     exit(1);

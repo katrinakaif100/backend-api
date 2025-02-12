@@ -27,7 +27,7 @@ environment:
 # dependencies can be manually updated by changing the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
-dependencies:
+dependencies: 
   flutter:
     sdk: flutter
   http: ^1.1.0
@@ -40,8 +40,9 @@ dependencies:
   path: ^1.8.0
   crypto: ^3.0.1
   pointycastle: ^3.0.2
-  flutter_local_notifications: ^12.0.4
+  flutter_local_notifications: ^18.0.1
   provider: ^6.1.0
+  shelf_cors_headers: ^0.1.5
   
   
 

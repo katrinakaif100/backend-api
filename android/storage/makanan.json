@@ -1,0 +1,51 @@
+{
+    "disarankan": [
+      {
+        "title": "Makanan Kaya Vitamin A",
+        "subtitle": "Seperti wortel, ubi jalar, bayam, dan mangga, membantu meningkatkan kekebalan tubuh."
+      },
+      {
+        "title": "Makanan Tinggi Protein",
+        "subtitle": "Seperti telur, ikan, ayam, kacang-kacangan, membantu memperbaiki jaringan tubuh yang rusak."
+      },
+      {
+        "title": "Makanan Kaya Vitamin C",
+        "subtitle": "Jeruk, kiwi, dan jambu biji meningkatkan daya tahan tubuh."
+      },
+      {
+        "title": "Makanan Lunak dan Mudah Dicerna",
+        "subtitle": "Seperti bubur, sup sayuran, dan pisang, membantu kenyamanan pencernaan."
+      },
+      {
+        "title": "Cairan yang Cukup",
+        "subtitle": "Minum air putih, jus buah tanpa gula, dan air kelapa untuk mencegah dehidrasi."
+      },
+      {
+        "title": "Probiotik",
+        "subtitle": "Yogurt tanpa gula atau tempe mendukung kesehatan pencernaan."
+      }
+    ],
+    "dihindari": [
+      {
+        "title": "Makanan Tinggi Gula dan Lemak Trans",
+        "subtitle": "Seperti makanan cepat saji, permen, dan minuman bersoda."
+      },
+      {
+        "title": "Makanan Pedas atau Asam",
+        "subtitle": "Seperti sambal, cabai, atau acar, yang dapat mengiritasi tenggorokan."
+      },
+      {
+        "title": "Makanan Berminyak dan Gorengan",
+        "subtitle": "Seperti gorengan, karena sulit dicerna dan memperburuk rasa tidak nyaman."
+      },
+      {
+        "title": "Makanan Olahan dan Instan",
+        "subtitle": "Seperti mi instan, sosis, dan nugget, karena rendah nutrisi."
+      },
+      {
+        "title": "Minuman Berkafein",
+        "subtitle": "Seperti kopi dan teh, karena dapat menyebabkan dehidrasi."
+      }
+    ]
+  }
+  
