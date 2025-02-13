@@ -7,9 +7,9 @@ Future<void> main() async {
 
   try {
     // Menjalankan server
-    print('🚀 Starting server on https://www.deteksicampak.my.id:$port ...');
+    print('🚀 Starting server on https://api.deteksicampak.my.id:$port ...');
     await serve(port);
-    print('✅ Server running at https://www.deteksicampak.my.id:$port');
+    print('✅ Server running at https://api.deteksicampak.my.id:$port');
 
     // Menangani shutdown server saat menerima sinyal SIGINT (Ctrl+C)
     ProcessSignal.sigint.watch().listen((signal) async {
