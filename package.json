@@ -8,7 +8,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "node"
+    "test": "node",
+    "start": "bash vercel-build.sh"
   },
   "keywords": [
     "kuncirahasiaku"
@@ -21,4 +22,8 @@
   "devDependencies": {
     "nodemon": "^3.1.7"
   }
+  
+  
+  
+
 }

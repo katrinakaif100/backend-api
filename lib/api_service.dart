@@ -6,6 +6,24 @@ import 'package:shelf_router/shelf_router.dart';
 import 'package:crypto/crypto.dart';
 import 'package:collection/collection.dart';
 
+// Middleware untuk menangani CORS di semua request
+Middleware corsMiddleware = (Handler innerHandler) {
+  return (Request request) async {
+    if (request.method == 'OPTIONS') {
+      return Response.ok('', headers: _corsHeaders);
+    }
+    Response response = await innerHandler(request);
+    return response.change(headers: _corsHeaders);
+  };
+};
+
+// Header CORS yang akan diterapkan ke semua response
+const Map<String, String> _corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+
 // Fungsi untuk membuat JWT
 String generateJwt(String username, String secretKey) {
   final payload = jsonEncode({'username': username});
@@ -38,14 +56,6 @@ const String artikelFile = 'android/storage/artikel.json';
 
 // Fungsi handler utama
 Future<Response> _handler(Request req) async {
-  if (req.method == 'OPTIONS') {
-    return Response.ok('', headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    });
-  }
-
   final router = Router();
 
   // Endpoint login untuk otentikasi (admin)
@@ -125,7 +135,6 @@ Future<Response> _postData(String filePath, Request request) async {
 
 // Fungsi untuk mendaftarkan endpoint admin
 void _registerAdminEndpoints(Router router) {
-  // Hanya riwayat diagnosa yang dikirim ke admin
   router.get('/admin/riwayat_diagnosa',
       (Request req) => _getData(riwayatdiagnosaFile));
   router.post('/admin/riwayat_diagnosa',
@@ -134,7 +143,6 @@ void _registerAdminEndpoints(Router router) {
 
 // Fungsi untuk mendaftarkan endpoint pengguna
 void _registerUserEndpoints(Router router) {
-  // Endpoint untuk pengguna mendapatkan data
   router.get('/api/perawatan', (Request req) => _getData(perawatanFile));
   router.get(
       '/api/informasi_campak', (Request req) => _getData(informasicampakFile));
@@ -142,15 +150,16 @@ void _registerUserEndpoints(Router router) {
   router.get('/api/makanan', (Request req) => _getData(makananFile));
   router.get('/api/faq', (Request req) => _getData(faqFile));
   router.get('/api/artikel', (Request req) => _getData(artikelFile));
-
-  // Endpoint untuk menerima data riwayat diagnosa dari pengguna
   router.post('/api/riwayat_diagnosa',
       (Request req) => _postData(riwayatdiagnosaFile, req));
 }
 
 // Fungsi utama untuk menjalankan server
 Future<void> serve(int port) async {
-  final handler = Pipeline().addMiddleware(logRequests()).addHandler(_handler);
+  final handler = Pipeline()
+      .addMiddleware(logRequests())
+      .addMiddleware(corsMiddleware) // ✅ Tambahkan middleware CORS
+      .addHandler(_handler);
 
   final server = await io.serve(handler, InternetAddress.anyIPv4, port);
   print('Server listening on port ${server.port}');
