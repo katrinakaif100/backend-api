@@ -1,28 +1,17 @@
-# Gunakan Dart versi terbaru
-FROM dart:3.7.0 AS build
+# Gunakan image Dart resmi
+FROM dart:stable AS build
 
-# Setel work directory
+# Buat folder kerja di dalam container
 WORKDIR /app
 
-# Salin file pubspec untuk mengelola dependensi
-COPY pubspec.yaml pubspec.lock /app/
-
-# Jalankan pub get untuk mengunduh dependensi
-RUN dart pub get
-
-# Salin semua file proyek ke dalam container
+# Copy semua file proyek ke dalam container
 COPY . .
 
-# Kompilasi kode ke executable
-RUN dart compile exe bin/backend_api.dart -o bin/server
+# Jalankan pub get untuk mengambil dependensi
+RUN dart pub get
 
-# Gunakan runtime Dart untuk menjalankan aplikasi
-FROM dart:3.7.0 AS runtime
+# Expose port sesuai dengan aplikasi backend-mu
+EXPOSE 8080
 
-WORKDIR /app
-
-# Salin hasil build dari stage sebelumnya
-COPY --from=build /app/bin/server /app/server
-
-# Eksekusi aplikasi
-CMD ["/app/server"]
+# Perintah untuk menjalankan aplikasi dari lib/main.dart
+CMD ["dart", "lib/main.dart"]
