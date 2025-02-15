@@ -1,0 +1,14 @@
+# Gunakan Dart versi terbaru
+FROM dart:3.2.0
+
+# Set work directory
+WORKDIR /app
+
+# Copy semua file ke container
+COPY . .
+
+# Install dependencies
+RUN dart pub get
+
+# Jalankan server
+CMD ["dart", "run", "lib/main.dart"]
