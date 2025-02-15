@@ -19,3 +19,12 @@ dev_dependencies:
   lints: ^2.0.0
   test: ^1.24.0
 
+flutter:
+  assets:
+    - storage/makanan.json
+    - storage/perawatan.json
+    - storage/informasi_campak.json
+    - storage/faq.json
+    - storage/artikel.json
+    - storage/riwayat_diagnosa.json
+

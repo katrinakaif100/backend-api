@@ -2,6 +2,8 @@ import 'dart:io';
 import '../lib/api_service.dart';
 
 Future<void> main() async {
+  final corsOrigin = Platform.environment['CORS_ORIGIN'] ?? '*';
+  print('CORS_ORIGIN dari environment: $corsOrigin');
   // Gunakan port dari environment (Vercel) atau default ke 8080 jika lokal
   final int port = int.tryParse(Platform.environment['PORT'] ?? '8080') ?? 8080;
 
