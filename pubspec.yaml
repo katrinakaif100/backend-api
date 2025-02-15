@@ -12,8 +12,9 @@ dependencies:
   shelf_static: ^1.1.2
   http: ^0.13.6
   shared_preferences: ^2.5.2
-  flutter_secure_storage: ^4.2.1
   json_annotation: ^4.9.0
+  cryptography: ^2.0.5 # Untuk Railway/Backend
+  flutter_secure_storage: ^4.2.1 # Untuk Android/ios
 
 dev_dependencies:
   lints: ^2.0.0
