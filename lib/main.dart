@@ -1,5 +1,5 @@
 import 'dart:io';
-import '../lib/api_service.dart';
+import 'package:backend_api/api_service.dart';
 
 Future<void> main() async {
   final corsOrigin = Platform.environment['CORS_ORIGIN'] ?? '*';
