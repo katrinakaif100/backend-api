@@ -1,0 +1,6 @@
+[build]
+builder = "NIXPACKS"
+buildCommand = "dart pub get"
+
+[start]
+cmd = "dart run lib/main.dart"

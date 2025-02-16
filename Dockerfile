@@ -1,4 +1,4 @@
-FROM dart:stable AS build
+FROM dart:3.7.0
 
 WORKDIR /app
 COPY . .
