@@ -13,8 +13,7 @@ dependencies:
   http: ^1.3.0
   json_annotation: ^4.9.0
   cryptography: ^2.0.5
-  flutter_secure_storage: ^9.2.4
-  shared_preferences: ^2.5.2
+  
 
 dev_dependencies:
   lints: ^4.0.0  # Gunakan versi yang cocok dengan Dart 3.0.6
