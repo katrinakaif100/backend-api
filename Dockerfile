@@ -1,7 +1,13 @@
-FROM cirrusci/flutter:3.7.0
+FROM cirrusci/flutter:stable
 
 WORKDIR /app
+
 COPY . .
+
 RUN flutter pub get
 
 CMD ["dart", "run", "lib/main.dart"]
+
+
+
+

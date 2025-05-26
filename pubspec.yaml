@@ -3,7 +3,7 @@ description: Backend API untuk Deteksi Campak
 version: 1.0.0
 
 environment:
-  sdk: '>=3.7.0 <4.0.0'  # Sesuaikan dengan versi Dart di lokal
+  sdk: '>=3.6.0 <4.0.0'  # Sesuaikan dengan versi Dart di lokal
 
 dependencies:
   shelf: ^1.4.1
