@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN flutter pub get
+RUN dart pub get
 
 CMD ["dart", "run", "lib/main.dart"]
 
